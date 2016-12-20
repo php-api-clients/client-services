@@ -1,11 +1,11 @@
 # Generic client services
 
-[![Build Status](https://client-services-ci.org/php-api-clients/client-services.svg?branch=master)](https://client-services-ci.org/php-api-clients/client-services)
+[![Build Status](https://travis-ci.org/php-api-clients/client-services.svg?branch=master)](https://travis-ci.org/php-api-clients/client-services)
 [![Latest Stable Version](https://poser.pugx.org/api-clients/client-services/v/stable.png)](https://packagist.org/packages/api-clients/client-services)
 [![Total Downloads](https://poser.pugx.org/api-clients/client-services/downloads.png)](https://packagist.org/packages/api-clients/client-services)
 [![Code Coverage](https://scrutinizer-ci.com/g/php-api-clients/client-services/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-api-clients/client-services/?branch=master)
 [![License](https://poser.pugx.org/api-clients/client-services/license.png)](https://packagist.org/packages/api-clients/client-services)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/php-api-clients/client-services/badge.svg)](https://client-services-ci.org/php-api-clients/client-services)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/php-api-clients/client-services/badge.svg)](https://travis-ci.org/php-api-clients/client-services)
 
 # License
 
