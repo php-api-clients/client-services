@@ -1,6 +1,6 @@
 {
   "name": "api-clients/client-services",
-  "description": "Async first TravisCI PHP API Client",
+  "description": "Generic client services",
   "license": "MIT",
   "authors": [
     {
