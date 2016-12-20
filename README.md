@@ -1,18 +1,11 @@
-# TravisCI API Client for PHP 7
+# Generic client services
 
-[![Build Status](https://travis-ci.org/php-api-clients/travis.svg?branch=master)](https://travis-ci.org/php-api-clients/travis)
-[![Latest Stable Version](https://poser.pugx.org/api-clients/travis/v/stable.png)](https://packagist.org/packages/api-clients/travis)
-[![Total Downloads](https://poser.pugx.org/api-clients/travis/downloads.png)](https://packagist.org/packages/api-clients/travis)
-[![Code Coverage](https://scrutinizer-ci.com/g/php-api-clients/travis/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-api-clients/travis/?branch=master)
-[![License](https://poser.pugx.org/api-clients/travis/license.png)](https://packagist.org/packages/api-clients/travis)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/php-api-clients/travis/badge.svg)](https://travis-ci.org/php-api-clients/travis)
-
-
-# Goals
-
-* 100% TravisCI [API](https://docs.travis-ci.com/api) support
-* Third party API support (like Pusher)
-* Both synchronous and asynchronous
+[![Build Status](https://client-services-ci.org/php-api-clients/client-services.svg?branch=master)](https://client-services-ci.org/php-api-clients/client-services)
+[![Latest Stable Version](https://poser.pugx.org/api-clients/client-services/v/stable.png)](https://packagist.org/packages/api-clients/client-services)
+[![Total Downloads](https://poser.pugx.org/api-clients/client-services/downloads.png)](https://packagist.org/packages/api-clients/client-services)
+[![Code Coverage](https://scrutinizer-ci.com/g/php-api-clients/client-services/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-api-clients/client-services/?branch=master)
+[![License](https://poser.pugx.org/api-clients/client-services/license.png)](https://packagist.org/packages/api-clients/client-services)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/php-api-clients/client-services/badge.svg)](https://client-services-ci.org/php-api-clients/client-services)
 
 # License
 

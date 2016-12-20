@@ -1,4 +1,0 @@
-class: RepositoryKey
-properties:
-  key: string
-  fingerprint: string

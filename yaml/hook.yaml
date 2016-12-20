@@ -1,4 +1,0 @@
-class: Hook
-properties:
-  id: int
-  active: bool

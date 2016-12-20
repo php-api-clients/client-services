@@ -1,4 +1,0 @@
-class: Broadcast
-properties:
-  id: int
-  message: string

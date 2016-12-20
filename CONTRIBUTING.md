@@ -4,7 +4,7 @@ Pull requests are highly appreciated. Here's a quick guide.
 
 Fork, then clone the repo:
 
-    git clone git@github.com:your-username/php-travis-client.git
+    git clone git@github.com:your-username/client-services.git
 
 Set up your machine:
 

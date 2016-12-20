@@ -1,7 +1,0 @@
-class: Annotation
-properties:
-  id: int
-  job_id: int
-  description: string
-  url: string
-  status: string

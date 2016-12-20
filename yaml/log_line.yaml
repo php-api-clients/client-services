@@ -1,6 +1,0 @@
-class: LogLine
-properties:
-  id: int
-  _log: string
-  number: int
-  final: bool

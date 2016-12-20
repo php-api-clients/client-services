@@ -1,7 +1,0 @@
-class: Cache
-properties:
-  repository_id: int
-  size: int
-  slug: string
-  branch: string
-  last_modified: DateTimeInterface
