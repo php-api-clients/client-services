@@ -18,19 +18,65 @@ use function React\Promise\resolve;
 
 final class FetchAndIterateServiceTest extends TestCase
 {
-    public function testHandle()
+    public function jsonProvider()
     {
-        $repositoryResource = $this->prophesize(ResourceInterface::class)->reveal();
+        yield [
+            [
+                [
+                    'slug' => 'slak',
+                ],
+                [
+                    'slug' => 'vis',
+                ],
+                [
+                    'slug' => 'beer',
+                ],
+            ],
+            [
+                [
+                    'slug' => 'slak',
+                ],
+                [
+                    'slug' => 'vis',
+                ],
+                [
+                    'slug' => 'beer',
+                ],
+            ],
+            '',
+        ];
 
-        $client = $this->prophesize(ClientInterface::class);
-        $client->request(
-            Argument::type(RequestInterface::class),
-            Argument::type('array')
-        )->shouldBeCalled()->willReturn(resolve(
-            new Response(
-                200,
-                [],
-                new JsonStream([
+        yield [
+            [
+                'repos' => [
+                    [
+                        'slug' => 'slak',
+                    ],
+                    [
+                        'slug' => 'vis',
+                    ],
+                    [
+                        'slug' => 'beer',
+                    ],
+                ],
+            ],
+            [
+                [
+                    'slug' => 'slak',
+                ],
+                [
+                    'slug' => 'vis',
+                ],
+                [
+                    'slug' => 'beer',
+                ],
+            ],
+            'repos',
+        ];
+
+        yield [
+            [
+                'nested' => [
                     'repos' => [
                         [
                             'slug' => 'slak',
@@ -42,36 +88,74 @@ final class FetchAndIterateServiceTest extends TestCase
                             'slug' => 'beer',
                         ],
                     ],
-                ])
+                ],
+            ],
+            [
+                [
+                    'slug' => 'slak',
+                ],
+                [
+                    'slug' => 'vis',
+                ],
+                [
+                    'slug' => 'beer',
+                ],
+            ],
+            'nested.repos',
+        ];
+
+        yield [
+            [
+                'repos' => [
+                    [
+                        'slug' => 'slak',
+                    ],
+                    [
+                        'slug' => 'vis',
+                    ],
+                    [
+                        'slug' => 'beer',
+                    ],
+                ],
+            ],
+            [],
+            'nested',
+            true,
+        ];
+    }
+
+    /**
+     * @dataProvider jsonProvider
+     */
+    public function testHandle(array $inputJson, array $expectedOutputJsons, string $arrayPath, bool $subscribeCallbackCalled = false)
+    {
+        $repositoryResource = $this->prophesize(ResourceInterface::class)->reveal();
+
+        $client = $this->prophesize(ClientInterface::class);
+        $client->request(
+            Argument::type(RequestInterface::class),
+            Argument::type('array')
+        )->shouldBeCalled()->willReturn(resolve(
+            new Response(
+                200,
+                [],
+                new JsonStream($inputJson)
             )
         ));
 
         $requestService = new RequestService($client->reveal());
 
         $hydrator = $this->prophesize(Hydrator::class);
-        $hydrator->hydrate(
-            Argument::exact('Resource'),
-            Argument::exact([
-                'slug' => 'slak',
-            ])
-        )->shouldBeCalled()->willReturn($repositoryResource);
-        $hydrator->hydrate(
-            Argument::exact('Resource'),
-            Argument::exact([
-                'slug' => 'vis',
-            ])
-        )->shouldBeCalled()->willReturn($repositoryResource);
-        $hydrator->hydrate(
-            Argument::exact('Resource'),
-            Argument::exact([
-                'slug' => 'beer',
-            ])
-        )->shouldBeCalled()->willReturn($repositoryResource);
+        foreach ($expectedOutputJsons as $expectedOutputJson) {
+            $hydrator->hydrate(
+                Argument::exact('Resource'),
+                Argument::exact($expectedOutputJson)
+            )->shouldBeCalled()->willReturn($repositoryResource);
+        }
 
-        $subscribeCallbackCalled = false;
         $service = new FetchAndIterateService($requestService, $hydrator->reveal());
         unwrapObservableFromPromise(
-            $service->handle('repos', 'repos', 'Resource')
+            $service->handle('repos', $arrayPath, 'Resource')
         )->subscribeCallback(function ($resource) use ($repositoryResource, &$subscribeCallbackCalled) {
             self::assertSame($repositoryResource, $resource);
             $subscribeCallbackCalled = true;

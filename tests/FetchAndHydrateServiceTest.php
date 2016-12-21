@@ -19,7 +19,63 @@ use function React\Promise\resolve;
 
 final class FetchAndHydrateServiceTest extends TestCase
 {
-    public function testHandle()
+    public function jsonProvider()
+    {
+        yield [
+            [
+                'repo' => [
+                    'slug' => 'slak',
+                ],
+            ],
+            [
+                'repo' => [
+                    'slug' => 'slak',
+                ],
+            ],
+            '',
+        ];
+
+        yield [
+            [
+                'repo' => [
+                    'slug' => 'slak',
+                ],
+            ],
+            [
+                'slug' => 'slak',
+            ],
+            'repo',
+        ];
+
+        yield [
+            [
+                'nested' => [
+                    'repo' => [
+                        'slug' => 'slak',
+                    ],
+                ],
+            ],
+            [
+                'slug' => 'slak',
+            ],
+            'nested.repo',
+        ];
+
+        yield [
+            [
+                'repo' => [
+                    'slug' => 'slak',
+                ],
+            ],
+            [],
+            'nested',
+        ];
+    }
+
+    /**
+     * @dataProvider jsonProvider
+     */
+    public function testHandle(array $inputJson, array $expectedOutputJson, string $arrayPath)
     {
         $repositoryResource = $this->prophesize(ResourceInterface::class)->reveal();
 
@@ -31,11 +87,7 @@ final class FetchAndHydrateServiceTest extends TestCase
             new Response(
                 200,
                 [],
-                new JsonStream([
-                    'repo' => [
-                        'slug' => 'slak',
-                    ],
-                ])
+                new JsonStream($inputJson)
             )
         ));
 
@@ -44,14 +96,12 @@ final class FetchAndHydrateServiceTest extends TestCase
         $hydrator = $this->prophesize(Hydrator::class);
         $hydrator->hydrate(
             Argument::exact('Resource'),
-            Argument::exact([
-                'slug' => 'slak',
-            ])
+            Argument::exact($expectedOutputJson)
         )->shouldBeCalled()->willReturn($repositoryResource);
 
         $service = new FetchAndHydrateService($requestService, $hydrator->reveal());
         $resource = await(
-            $service->handle('repo', 'repo', 'Resource'),
+            $service->handle('repo', $arrayPath, 'Resource'),
             Factory::create()
         );
 

@@ -52,7 +52,13 @@ class FetchAndIterateService implements ServiceInterface
                     new Request('GET', $path)
                 )
             )->flatMap(function ($response) use ($index) {
-                return Observable::fromArray(get_in($response->getBody()->getJson(), explode('.', $index), []));
+                $json = $response->getBody()->getJson();
+
+                if ($index === '') {
+                    return Observable::fromArray($json);
+                }
+
+                return Observable::fromArray(get_in($json, explode('.', $index), []));
             })->map(function ($json) use ($hydrateClass) {
                 return $this->hydrator->hydrate(
                     $hydrateClass,

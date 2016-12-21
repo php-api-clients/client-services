@@ -49,9 +49,15 @@ class FetchAndHydrateService implements ServiceInterface
         return $this->requestService->handle(
             new Request('GET', $path)
         )->then(function (ResponseInterface $response) use ($hydrateClass, $index) {
+            $json = $response->getBody()->getJson();
+
+            if ($index !== '') {
+                $json = get_in($json, explode('.', $index), []);
+            }
+
             return $this->hydrator->hydrate(
                 $hydrateClass,
-                get_in($response->getBody()->getJson(), explode('.', $index), [])
+                $json
             );
         });
     }
