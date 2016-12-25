@@ -39,15 +39,18 @@ class FetchAndHydrateService implements ServiceInterface
      * @param string|null $path
      * @param string|null $index
      * @param string|null $hydrateClass
+     * @param array $options
      * @return CancellablePromiseInterface
      */
     public function handle(
         string $path = null,
         string $index = null,
-        string $hydrateClass = null
+        string $hydrateClass = null,
+        array $options = []
     ): CancellablePromiseInterface {
         return $this->requestService->handle(
-            new Request('GET', $path)
+            new Request('GET', $path),
+            $options
         )->then(function (ResponseInterface $response) use ($hydrateClass, $index) {
             $json = $response->getBody()->getJson();
 

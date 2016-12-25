@@ -39,17 +39,20 @@ class FetchAndIterateService implements ServiceInterface
      * @param string|null $path
      * @param string|null $index
      * @param string|null $hydrateClass
+     * @param array $options
      * @return CancellablePromiseInterface
      */
     public function handle(
         string $path = null,
         string $index = null,
-        string $hydrateClass = null
+        string $hydrateClass = null,
+        array $options = []
     ): CancellablePromiseInterface {
         return resolve(
             Promise::toObservable(
                 $this->requestService->handle(
-                    new Request('GET', $path)
+                    new Request('GET', $path),
+                    $options
                 )
             )->flatMap(function ($response) use ($index) {
                 $json = $response->getBody()->getJson();
