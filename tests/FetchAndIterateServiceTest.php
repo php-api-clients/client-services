@@ -12,8 +12,6 @@ use ApiClients\Tools\TestUtilities\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\RequestInterface;
 use RingCentral\Psr7\Response;
-use function ApiClients\Tools\Rx\unwrapObservableFromPromise;
-use function Clue\React\Block\await;
 use function React\Promise\resolve;
 
 final class FetchAndIterateServiceTest extends TestCase
@@ -127,7 +125,7 @@ final class FetchAndIterateServiceTest extends TestCase
     /**
      * @dataProvider jsonProvider
      */
-    public function testHandle(array $inputJson, array $expectedOutputJsons, string $arrayPath, bool $subscribeCallbackCalled = false)
+    public function testIterate(array $inputJson, array $expectedOutputJsons, string $arrayPath, bool $subscribeCallbackCalled = false)
     {
         $repositoryResource = $this->prophesize(ResourceInterface::class)->reveal();
 
@@ -154,9 +152,7 @@ final class FetchAndIterateServiceTest extends TestCase
         }
 
         $service = new FetchAndIterateService($requestService, $hydrator->reveal());
-        unwrapObservableFromPromise(
-            $service->handle('repos', $arrayPath, 'Resource')
-        )->subscribeCallback(function ($resource) use ($repositoryResource, &$subscribeCallbackCalled) {
+        $service->iterate('repos', $arrayPath, 'Resource')->subscribeCallback(function ($resource) use ($repositoryResource, &$subscribeCallbackCalled) {
             self::assertSame($repositoryResource, $resource);
             $subscribeCallbackCalled = true;
         });

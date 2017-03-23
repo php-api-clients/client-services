@@ -3,17 +3,14 @@
 namespace ApiClients\Tools\Services\Client;
 
 use ApiClients\Foundation\Hydrator\Hydrator;
-use ApiClients\Foundation\Service\ServiceInterface;
 use ApiClients\Foundation\Transport\Service\RequestService;
 use React\Promise\CancellablePromiseInterface;
 use RingCentral\Psr7\Request;
 use Rx\Observable;
 use Rx\React\Promise;
 use function igorw\get_in;
-use function React\Promise\resolve;
-use function WyriHaximus\React\futureFunctionPromise;
 
-class FetchAndIterateService implements ServiceInterface
+class FetchAndIterateService
 {
     /**
      * @var RequestService
@@ -42,32 +39,30 @@ class FetchAndIterateService implements ServiceInterface
      * @param array $options
      * @return CancellablePromiseInterface
      */
-    public function handle(
+    public function iterate(
         string $path = null,
         string $index = null,
         string $hydrateClass = null,
         array $options = []
-    ): CancellablePromiseInterface {
-        return resolve(
-            Promise::toObservable(
-                $this->requestService->handle(
-                    new Request('GET', $path),
-                    $options
-                )
-            )->flatMap(function ($response) use ($index) {
-                $json = $response->getBody()->getJson();
+    ): Observable {
+        return Promise::toObservable(
+            $this->requestService->handle(
+                new Request('GET', $path),
+                $options
+            )
+        )->flatMap(function ($response) use ($index) {
+            $json = $response->getBody()->getJson();
 
-                if ($index === '') {
-                    return Observable::fromArray($json);
-                }
+            if ($index === '') {
+                return Observable::fromArray($json);
+            }
 
-                return Observable::fromArray(get_in($json, explode('.', $index), []));
-            })->map(function ($json) use ($hydrateClass) {
-                return $this->hydrator->hydrate(
-                    $hydrateClass,
-                    $json
-                );
-            })
-        );
+            return Observable::fromArray(get_in($json, explode('.', $index), []));
+        })->map(function ($json) use ($hydrateClass) {
+            return $this->hydrator->hydrate(
+                $hydrateClass,
+                $json
+            );
+        });
     }
 }

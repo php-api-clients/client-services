@@ -13,7 +13,6 @@ use Prophecy\Argument;
 use Psr\Http\Message\RequestInterface;
 use React\EventLoop\Factory;
 use RingCentral\Psr7\Response;
-use function ApiClients\Tools\Rx\unwrapObservableFromPromise;
 use function Clue\React\Block\await;
 use function React\Promise\resolve;
 
@@ -75,7 +74,7 @@ final class FetchAndHydrateServiceTest extends TestCase
     /**
      * @dataProvider jsonProvider
      */
-    public function testHandle(array $inputJson, array $expectedOutputJson, string $arrayPath)
+    public function testFetch(array $inputJson, array $expectedOutputJson, string $arrayPath)
     {
         $repositoryResource = $this->prophesize(ResourceInterface::class)->reveal();
 
@@ -101,7 +100,7 @@ final class FetchAndHydrateServiceTest extends TestCase
 
         $service = new FetchAndHydrateService($requestService, $hydrator->reveal());
         $resource = await(
-            $service->handle('repo', $arrayPath, 'Resource'),
+            $service->fetch('repo', $arrayPath, 'Resource'),
             Factory::create()
         );
 

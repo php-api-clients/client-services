@@ -3,17 +3,13 @@
 namespace ApiClients\Tools\Services\Client;
 
 use ApiClients\Foundation\Hydrator\Hydrator;
-use ApiClients\Foundation\Service\ServiceInterface;
 use ApiClients\Foundation\Transport\Service\RequestService;
 use Psr\Http\Message\ResponseInterface;
 use React\Promise\CancellablePromiseInterface;
 use RingCentral\Psr7\Request;
-use Rx\Observable;
 use function igorw\get_in;
-use function React\Promise\resolve;
-use function WyriHaximus\React\futureFunctionPromise;
 
-class FetchAndHydrateService implements ServiceInterface
+class FetchAndHydrateService
 {
     /**
      * @var RequestService
@@ -42,7 +38,7 @@ class FetchAndHydrateService implements ServiceInterface
      * @param array $options
      * @return CancellablePromiseInterface
      */
-    public function handle(
+    public function fetch(
         string $path = null,
         string $index = null,
         string $hydrateClass = null,
