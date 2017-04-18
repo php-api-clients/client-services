@@ -46,7 +46,7 @@ class FetchAndIterateService
         array $options = []
     ): Observable {
         return Promise::toObservable(
-            $this->requestService->handle(
+            $this->requestService->request(
                 new Request('GET', $path),
                 $options
             )

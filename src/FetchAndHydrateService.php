@@ -44,7 +44,7 @@ class FetchAndHydrateService
         string $hydrateClass = null,
         array $options = []
     ): CancellablePromiseInterface {
-        return $this->requestService->handle(
+        return $this->requestService->request(
             new Request('GET', $path),
             $options
         )->then(function (ResponseInterface $response) use ($hydrateClass, $index) {
