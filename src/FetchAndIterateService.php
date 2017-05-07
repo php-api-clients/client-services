@@ -4,6 +4,7 @@ namespace ApiClients\Tools\Services\Client;
 
 use ApiClients\Foundation\Hydrator\Hydrator;
 use ApiClients\Foundation\Transport\Service\RequestService;
+use function ApiClients\Tools\Rx\observableFromArray;
 use React\Promise\CancellablePromiseInterface;
 use RingCentral\Psr7\Request;
 use Rx\Observable;
@@ -54,10 +55,10 @@ class FetchAndIterateService
             $json = $response->getBody()->getJson();
 
             if ($index === '') {
-                return Observable::fromArray($json);
+                return observableFromArray($json);
             }
 
-            return Observable::fromArray(get_in($json, explode('.', $index), []));
+            return observableFromArray(get_in($json, explode('.', $index), []));
         })->map(function ($json) use ($hydrateClass) {
             return $this->hydrator->hydrate(
                 $hydrateClass,
