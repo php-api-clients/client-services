@@ -12,7 +12,7 @@
     "php": "^7.0",
     "api-clients/hydrator": "^1.0",
     "api-clients/middleware-json": "^1.0",
-    "api-clients/rx": "^2.0||^1.0",
+    "api-clients/rx": "^2.1",
     "api-clients/transport": "^1.0",
     "igorw/get-in": "^1.0"
   },
