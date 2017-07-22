@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d0fd6751ad9ac2b2a73a95bd8b6d221",
+    "content-hash": "f1f3676e2e6584e00e1c6f784e4adb6f",
     "packages": [
         {
             "name": "api-clients/command-bus",
@@ -336,16 +336,16 @@
         },
         {
             "name": "api-clients/transport",
-            "version": "2.0.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/transport.git",
-                "reference": "2b5546df3d1b7dd6128708c86e0d56f401ea0bd7"
+                "reference": "bdc854f195c41041b8be75b62634b4e21613c9b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/transport/zipball/2b5546df3d1b7dd6128708c86e0d56f401ea0bd7",
-                "reference": "2b5546df3d1b7dd6128708c86e0d56f401ea0bd7",
+                "url": "https://api.github.com/repos/php-api-clients/transport/zipball/bdc854f195c41041b8be75b62634b4e21613c9b5",
+                "reference": "bdc854f195c41041b8be75b62634b4e21613c9b5",
                 "shasum": ""
             },
             "require": {
@@ -389,7 +389,7 @@
                 }
             ],
             "description": "Middleware infused clue/buzz-react",
-            "time": "2017-07-04T13:10:16+00:00"
+            "time": "2017-07-22T20:55:25+00:00"
         },
         {
             "name": "clue/block-react",
