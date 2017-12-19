@@ -3,8 +3,10 @@
 namespace ApiClients\Tools\Services\Client;
 
 use ApiClients\Foundation\Hydrator\Hydrator;
+use ApiClients\Foundation\Transport\ParsedContentsInterface;
 use ApiClients\Foundation\Transport\Service\RequestService;
 use function ApiClients\Tools\Rx\observableFromArray;
+use Psr\Http\Message\ResponseInterface;
 use React\Promise\CancellablePromiseInterface;
 use RingCentral\Psr7\Request;
 use Rx\Observable;
@@ -51,14 +53,19 @@ class FetchAndIterateService
                 new Request('GET', $path),
                 $options
             )
-        )->flatMap(function ($response) use ($index) {
-            $json = $response->getBody()->getJson();
-
-            if ($index === '') {
-                return observableFromArray($json);
+        )->flatMap(function (ResponseInterface $response) use ($index) {
+            $body = $response->getBody();
+            if (!($body instanceof ParsedContentsInterface)) {
+                return observableFromArray([[]]);
             }
 
-            return observableFromArray(get_in($json, explode('.', $index), []));
+            $parsedContents = $body->getParsedContents();
+
+            if ($index === '') {
+                return observableFromArray($parsedContents);
+            }
+
+            return observableFromArray(get_in($parsedContents, explode('.', $index), []));
         })->map(function ($json) use ($hydrateClass) {
             return $this->hydrator->hydrate(
                 $hydrateClass,

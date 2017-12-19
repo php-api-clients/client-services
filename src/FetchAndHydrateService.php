@@ -3,6 +3,7 @@
 namespace ApiClients\Tools\Services\Client;
 
 use ApiClients\Foundation\Hydrator\Hydrator;
+use ApiClients\Foundation\Transport\ParsedContentsInterface;
 use ApiClients\Foundation\Transport\Service\RequestService;
 use Psr\Http\Message\ResponseInterface;
 use React\Promise\CancellablePromiseInterface;
@@ -48,15 +49,19 @@ class FetchAndHydrateService
             new Request('GET', $path),
             $options
         )->then(function (ResponseInterface $response) use ($hydrateClass, $index) {
-            $json = $response->getBody()->getJson();
+            $parsedContents = [];
+            $body = $response->getBody();
+            if ($body instanceof ParsedContentsInterface) {
+                $parsedContents = $body->getParsedContents();
+            }
 
             if ($index !== '') {
-                $json = get_in($json, explode('.', $index), []);
+                $parsedContents = get_in($parsedContents, explode('.', $index), []);
             }
 
             return $this->hydrator->hydrate(
                 $hydrateClass,
-                $json
+                $parsedContents
             );
         });
     }
