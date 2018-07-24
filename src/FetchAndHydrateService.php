@@ -24,7 +24,7 @@ class FetchAndHydrateService
 
     /**
      * @param RequestService $requestService
-     * @param Hydrator $hydrator
+     * @param Hydrator       $hydrator
      */
     public function __construct(RequestService $requestService, Hydrator $hydrator)
     {
@@ -33,10 +33,10 @@ class FetchAndHydrateService
     }
 
     /**
-     * @param string|null $path
-     * @param string|null $index
-     * @param string|null $hydrateClass
-     * @param array $options
+     * @param  string|null                 $path
+     * @param  string|null                 $index
+     * @param  string|null                 $hydrateClass
+     * @param  array                       $options
      * @return CancellablePromiseInterface
      */
     public function fetch(

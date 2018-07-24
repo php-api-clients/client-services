@@ -5,12 +5,12 @@ namespace ApiClients\Tools\Services\Client;
 use ApiClients\Foundation\Hydrator\Hydrator;
 use ApiClients\Foundation\Transport\ParsedContentsInterface;
 use ApiClients\Foundation\Transport\Service\RequestService;
-use function ApiClients\Tools\Rx\observableFromArray;
 use Psr\Http\Message\ResponseInterface;
 use React\Promise\CancellablePromiseInterface;
 use RingCentral\Psr7\Request;
 use Rx\Observable;
 use Rx\React\Promise;
+use function ApiClients\Tools\Rx\observableFromArray;
 use function igorw\get_in;
 
 class FetchAndIterateService
@@ -27,7 +27,7 @@ class FetchAndIterateService
 
     /**
      * @param RequestService $requestService
-     * @param Hydrator $hydrator
+     * @param Hydrator       $hydrator
      */
     public function __construct(RequestService $requestService, Hydrator $hydrator)
     {
@@ -36,10 +36,10 @@ class FetchAndIterateService
     }
 
     /**
-     * @param string|null $path
-     * @param string|null $index
-     * @param string|null $hydrateClass
-     * @param array $options
+     * @param  string|null                 $path
+     * @param  string|null                 $index
+     * @param  string|null                 $hydrateClass
+     * @param  array                       $options
      * @return CancellablePromiseInterface
      */
     public function iterate(
