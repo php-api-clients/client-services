@@ -8,7 +8,7 @@ use ApiClients\Foundation\Transport\Service\RequestService;
 use Psr\Http\Message\ResponseInterface;
 use React\Promise\CancellablePromiseInterface;
 use RingCentral\Psr7\Request;
-use function igorw\get_in;
+use function WyriHaximus\getIn;
 
 class FetchAndHydrateService
 {
@@ -56,7 +56,7 @@ class FetchAndHydrateService
             }
 
             if ($index !== '') {
-                $parsedContents = get_in($parsedContents, explode('.', $index), []);
+                $parsedContents = getIn($parsedContents, $index, []);
             }
 
             return $this->hydrator->hydrate(
