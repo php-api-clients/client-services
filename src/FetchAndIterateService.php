@@ -11,7 +11,7 @@ use RingCentral\Psr7\Request;
 use Rx\Observable;
 use Rx\React\Promise;
 use function ApiClients\Tools\Rx\observableFromArray;
-use function igorw\get_in;
+use function WyriHaximus\getIn;
 
 class FetchAndIterateService
 {
@@ -65,7 +65,7 @@ class FetchAndIterateService
                 return observableFromArray($parsedContents);
             }
 
-            return observableFromArray(get_in($parsedContents, explode('.', $index), []));
+            return observableFromArray(getIn($parsedContents, $index, []));
         })->map(function ($json) use ($hydrateClass) {
             return $this->hydrator->hydrate(
                 $hydrateClass,
